@@ -1,0 +1,46 @@
+.home {
+    width: 100vw;
+    height: 100vh;
+}
+
+.home .left {
+    float: left;
+    left: 0;
+    width: auto;
+    height: 100vh;
+    background-color: #2470a0;
+}
+
+.nav {
+    position: relative;
+    margin-top: 20px;
+}
+
+.nav .item {
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.nav .active {
+    background-color: #2C8CC4;
+}
+
+.left .logout {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.home .right {
+    float: left;
+    height: 100vh;
+    width: auto;
+}

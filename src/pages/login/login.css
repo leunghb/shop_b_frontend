@@ -1,0 +1,28 @@
+.login {
+    width: 100vw;
+    height: 100vh;
+    background-color: #11548b;
+}
+
+input {
+    display: block;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 30px;
+    border: initial;
+    border-radius: 3px;
+    text-indent: 10px;
+    font-size: 12px;
+}
+
+input.account {
+    margin-top: -60px;
+}
+
+input.submit {
+    margin-top: 60px;
+    cursor: pointer;
+}
