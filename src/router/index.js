@@ -26,21 +26,26 @@ export default new Router({
             name: 'Home',
             component: () => import('@/pages/home/home'),
             children: [{
-                path: '/',
+                path: '/Index',
                 name: 'Index',
-                component: () => import('@/pages/index/index')
-            }, {
-                path: '/User',
-                name: 'User',
-                component: () => import('@/pages/user/user')
+                component: () => import('@/pages/index/index'),
+                meta: {
+                    keepAlive: true
+                }
             }, {
                 path: '/Goods',
                 name: 'Goods',
-                component: () => import('@/pages/goods/goods')
+                component: () => import('@/pages/goods/goods'),
+                meta: {
+                    keepAlive: true
+                }
             }, {
                 path: '/Order',
                 name: 'Order',
-                component: () => import('@/pages/order/order')
+                component: () => import('@/pages/order/order'),
+                meta: {
+                    keepAlive: true
+                }
             }]
         }
     ]

@@ -222,3 +222,24 @@ export function clearAllCookie() {
             document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
     }
 }
+
+//金额保留两位小数并添加千位符
+export function formatMoney(val) {
+    if (!isNaN(val)) {
+        let source = String(val.toFixed(2)).split("."); //按小数点分成2部分
+        source[0] = source[0].replace(new RegExp('(\\d)(?=(\\d{3})+$)', 'ig'), "$1,");//只将整数部分进行都好分割
+        return source.join(".");//再将小数部分合并进来
+    }
+    else {
+        return "--";
+    }
+}
+
+//十六进制颜色随机
+export function hexadecimalColors() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    let color = '#' + (Array(6).join(0) + (r.toString(16) + g.toString(16) + b.toString(16))).slice(-6);
+    return color;
+}

@@ -1,0 +1,24 @@
+.goodsCategory {
+    position: relative;
+    margin-top: 20px;
+}
+
+.goodsTable {
+    margin-top: 20px;
+}
+
+.search {
+    width: 400px;
+}
+
+.beyondOmission {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.pagination {
+    margin-top: 20px;
+}

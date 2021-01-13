@@ -23,16 +23,21 @@ const ENV = process.env.NODE_ENV;
 let url;
 
 if (ENV == "development") {
-    url = "http://127.0.0.1:8001/api/b";
+    url = "http://127.0.0.1:8001/api";
 }
 if (ENV == "production") {
     url = process.env.PROD_API_URL;
 }
 
-let user = "/user/"
+let user = "/b/user/", goods = "/goods/"
 export const api = {
     baseUrl: url,
-    login: url + user + "login"
+    //用户
+    login: url + user + "login",
+
+    //商品
+    getGoodsType: url + goods + "getGoodsType",
+    getGoodsList: url + goods + "getGoodsList",
 }
 
 export function get(url, params) {

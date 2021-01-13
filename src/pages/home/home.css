@@ -5,6 +5,7 @@
 
 .home .left {
     float: left;
+    position: relative;
     left: 0;
     width: auto;
     height: 100vh;
@@ -17,10 +18,11 @@
 }
 
 .nav .item {
-    padding: 10px 20px;
-    width: 100%;
+    padding: 10px 0;
+    width: 140px;
     box-sizing: border-box;
     font-size: 14px;
+    text-indent: 10px;
     color: #fff;
     cursor: pointer;
 }
@@ -41,6 +43,7 @@
 
 .home .right {
     float: left;
+    margin-left: 20px;
     height: 100vh;
-    width: auto;
+    width: calc(100vw -  180px);
 }

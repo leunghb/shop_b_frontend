@@ -5,10 +5,12 @@ import App from './App'
 import router from './router'
 import qs from 'qs'
 import './utils/httpApi'
+import 'element-ui/lib/theme-chalk/index.css';
+import {MessageBox, Message, Select, Option, Table, TableColumn, Button, Input, Tag, Pagination} from 'element-ui';
 
-import {Icon, Toast, Dialog} from 'vant'
-
-Vue.use(Icon).use(Toast).use(Dialog)
+Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination)
+Vue.prototype.$MessageBox = MessageBox;
+Vue.prototype.$Message = Message;
 
 Vue.prototype.$qs = qs
 

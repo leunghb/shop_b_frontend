@@ -26,11 +26,11 @@
         methods: {
             submit() {
                 if (this.account.length == 0) {
-                    this.$toast("请输入账号");
+                    this.$Message.warning('请输入账号');
                     return false;
                 }
                 if (this.password.length == 0) {
-                    this.$toast("请输入密码");
+                    this.$Message.warning('请输入密码');
                     return false;
                 }
                 let params = this.$qs.stringify({
@@ -40,20 +40,25 @@
                 post(api.login, params).then(res => {
                     let data = res.data;
                     if (data.code == 0) {
-                        this.$toast({message: "正在登录...", duration: 1400});
+                        this.$Message({
+                            message: '登陆中...',
+                            type: 'success',
+                            duration: 800
+                        });
+
                         let timer = setTimeout(() => {
                             document.cookie = "SHOPSESSIONID=" + data.data;
                             document.cookie = "account=" + this.account;
                             this.$router.push({
-                                path: "/Home",
+                                path: "/Index",
                             });
                             clearTimeout(timer);
                         }, 1500);
                         return false;
                     }
-                    this.$toast("账号或密码错误");
+                    this.$Message.warning('账号或密码错误');
                 }).catch(err => {
-                    this.$toast(err.message);
+                    this.$Message.warning(err.message);
                 })
             }
         }

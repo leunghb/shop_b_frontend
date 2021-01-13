@@ -2,15 +2,18 @@
     <div class="home">
         <div class="left">
             <div class="nav">
-                <div :class="['item', navActive == index ? 'active':'']" v-for="(item,index) in nav"
-                     @click="selectNav(index, item.path)">
+                <div :class="['item', navActive == item.path ? 'active':'']" v-for="(item,index) in nav"
+                     @click="selectNav(item.path)">
                     <div class="label" v-text="item.label"></div>
                 </div>
             </div>
             <div class="logout" @click="logout">退出</div>
         </div>
         <div class="right">
-            <router-view></router-view>
+            <keep-alive>
+                <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>
         </div>
     </div>
 </template>
@@ -24,10 +27,7 @@
             return {
                 nav: [{
                     label: "首页",
-                    path: "/"
-                }, {
-                    label: "用户管理",
-                    path: "/User"
+                    path: "/Index"
                 }, {
                     label: "商品管理",
                     path: "/Goods"
@@ -35,32 +35,33 @@
                     label: "订单管理",
                     path: "/Order"
                 }],
-                navActive: 0,
+                navActive: "/Home",
             }
         },
         created() {
-
+            this.navActive = this.$route.path;
         },
         methods: {
-            selectNav(index, path) {
-                this.navActive = index;
+            selectNav(path) {
+                this.navActive = path;
                 this.$router.push({
                     path: path
                 })
             },
             logout() {
-                this.$dialog.confirm({
-                    title: '确认退出？',
-                })
-                    .then(() => {
-                        localStorage.clear();
-                        clearAllCookie();
-                        this.$router.replace({
-                            path: "/Login"
-                        })
+                this.$MessageBox.confirm('点击确认将退出', '确认退出？', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    localStorage.clear();
+                    clearAllCookie();
+                    this.$router.replace({
+                        path: "/Login"
                     })
-                    .catch(() => {
-                    });
+                }).catch(() => {
+
+                });
             }
         }
     }
