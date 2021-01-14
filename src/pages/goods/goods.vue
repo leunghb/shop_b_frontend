@@ -19,6 +19,7 @@
         <el-input class="search" placeholder="请输入商品名称" v-model="searchText">
             <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
+        <el-button @click="addGoods">添加商品</el-button>
 
         <el-table
                 class="goodsTable"
@@ -66,12 +67,16 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    label="最近修改时间"
+                    label="最近修改日期"
                     width="200">
                 <template slot-scope="scope">
                     <i class="el-icon-edit"></i>
                     <span style="margin-left: 10px">{{ scope.row.modificationTime }}</span>
                 </template>
+            </el-table-column>
+            <el-table-column
+                    label=""
+                    width="auto">
             </el-table-column>
             <el-table-column label="操作" fixed="right" width="150">
                 <template slot-scope="scope">
@@ -217,6 +222,11 @@
             handleCurrentChange(val) {
                 this.page = val;
                 this.getGoodsList();
+            },
+            addGoods() {
+                this.$router.push({
+                    path: "/AddGoods"
+                })
             }
         }
     }

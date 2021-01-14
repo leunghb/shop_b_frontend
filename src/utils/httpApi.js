@@ -29,7 +29,7 @@ if (ENV == "production") {
     url = process.env.PROD_API_URL;
 }
 
-let user = "/b/user/", goods = "/goods/"
+let user = "/b/user/", goods = "/goods/", upload = "/upload/";
 export const api = {
     baseUrl: url,
     //用户
@@ -38,6 +38,9 @@ export const api = {
     //商品
     getGoodsType: url + goods + "getGoodsType",
     getGoodsList: url + goods + "getGoodsList",
+
+    //上传
+    uploadSinglePicture: url + upload + "uploadSinglePicture",
 }
 
 export function get(url, params) {

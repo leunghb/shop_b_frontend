@@ -6,9 +6,25 @@ import router from './router'
 import qs from 'qs'
 import './utils/httpApi'
 import 'element-ui/lib/theme-chalk/index.css';
-import {MessageBox, Message, Select, Option, Table, TableColumn, Button, Input, Tag, Pagination} from 'element-ui';
+import {
+    MessageBox,
+    Message,
+    Select,
+    Option,
+    Table,
+    TableColumn,
+    Button,
+    Input,
+    Tag,
+    Pagination,
+    Form,
+    FormItem,
+    Col,
+    Upload,
+    Dialog
+} from 'element-ui';
 
-Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination)
+Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination).use(Form).use(FormItem).use(Col).use(Upload).use(Dialog)
 Vue.prototype.$MessageBox = MessageBox;
 Vue.prototype.$Message = Message;
 

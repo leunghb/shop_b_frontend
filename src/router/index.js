@@ -46,6 +46,13 @@ export default new Router({
                 meta: {
                     keepAlive: true
                 }
+            }, {
+                path: '/AddGoods',
+                name: 'AddGoods',
+                component: () => import('@/pages/goods/addGoods'),
+                meta: {
+                    keepAlive: false
+                }
             }]
         }
     ]

@@ -4,8 +4,7 @@
 }
 
 .home .left {
-    float: left;
-    position: relative;
+    position: fixed;
     left: 0;
     width: auto;
     height: 100vh;
@@ -42,8 +41,13 @@
 }
 
 .home .right {
-    float: left;
-    margin-left: 20px;
-    height: 100vh;
-    width: calc(100vw -  180px);
+    position: absolute;
+    top: 0;
+    margin-left: 140px;
+    bottom: 0;
+    padding: 20px;
+    height: auto;
+    width: calc(100vw -  140px);
+    box-sizing: border-box;
+    overflow-y: scroll;
 }
