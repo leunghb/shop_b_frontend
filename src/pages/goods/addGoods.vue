@@ -30,19 +30,28 @@
                           v-model.number="form.discountPrice"
                           autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="商品封面">
-                <el-upload :action="uploadAction" list-type="picture-card" :auto-upload="false"
-                           :on-success="uploadCoverSuccess">
-                    <i slot="default" class="el-icon-plus"></i>
-                    <div slot="file" slot-scope="{file}">
-                        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-                        <span class="el-upload-list__item-actions">
-                            <span v-if="!form.disabled" class="el-upload-list__item-delete" @click="removeCover(file)">
-                                <i class="el-icon-delete"></i>
-                            </span>
-                        </span>
-                    </div>
-                </el-upload>
+            <el-form-item label="商品封面" class="cover" prop="cover">
+                <div class="item" v-for="(item,index) in form.cover">
+                    <img :src="item" alt="">
+                    <div class="mask"></div>
+                    <i class="el-icon-delete" @click="removeCover(index)"></i>
+                </div>
+                <div class="uploadCover item" v-if="form.cover.length != 5" @click="getCoverFile">
+                    <i class="el-icon-plus"></i>
+                </div>
+                <input type="file" ref="uploadCover" v-show="false" @change="uploadCover($event)" accept="image/*">
+            </el-form-item>
+            <el-form-item label="状态">
+                <el-radio-group v-model="form.soldOut">
+                    <el-radio label="0" v-model="form.soldOut">上架</el-radio>
+                    <el-radio label="1" v-model="form.soldOut">下架</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="库存" prop="stock">
+                <el-input type="number"
+                          placeholder="请输入商品库存"
+                          v-model.number="form.stock"
+                          autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit('form')">提交</el-button>
@@ -73,20 +82,29 @@
                     ],
                     originalPrice: [
                         {required: true, message: '请输入商品原价', trigger: 'blur'},
-                        {type: 'number', message: '商品原价必须为数字值'}
+                        {type: 'number', message: '商品原价必须为数字值'},
                     ],
                     discountPrice: [
                         {type: 'number', message: '商品优惠价必须为数字值'}
-                    ]
+                    ],
+                    cover: [
+                        {required: true, message: '至少上传一张图片', trigger: 'change'}
+                    ],
+                    stock: [
+                        {required: true, message: '请输入商品库存', trigger: 'blur'},
+                        {type: 'number', message: '商品库存必须为数字值'},
+                        {min: 0, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+                    ],
                 },
-                uploadAction: api.uploadSinglePicture,
                 form: {
                     goodsCategoryId: null,
                     mainTitle: null,
                     subTitle: null,
                     originalPrice: null,
                     discountPrice: null,
-                    disabled: false,
+                    cover: [],
+                    soldOut: "0",
+                    stock: null,
                 }
             }
         },
@@ -129,12 +147,30 @@
             reset() {
 
             },
-            removeCover(file) {
-                console.log(file);
+            getCoverFile() {
+                this.$refs.uploadCover.click();
             },
-            uploadCoverSuccess(res, file) {
-                console.log(res);
-                console.log(file);
+            uploadCover(e) {
+                let files = e.target.files[0];
+                e.target.value = '';
+                let params = new FormData();
+                params.append("file", files);
+                params.append("fileType", 2);
+                post(api.uploadSinglePicture, params)
+                    .then((res) => {
+                        let data = res.data;
+                        if (data.code == 0) {
+                            this.form.cover.push(api.baseUrl + data.data)
+                            return false;
+                        }
+                        this.$Message("图片上传失败");
+                    })
+                    .catch((err) => {
+                        this.$Message(err);
+                    });
+            },
+            removeCover(index) {
+                this.form.cover.splice(index, 1)
             }
         }
     }

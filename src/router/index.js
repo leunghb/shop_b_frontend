@@ -26,7 +26,7 @@ export default new Router({
             name: 'Home',
             component: () => import('@/pages/home/home'),
             children: [{
-                path: '/Index',
+                path: '/',
                 name: 'Index',
                 component: () => import('@/pages/index/index'),
                 meta: {

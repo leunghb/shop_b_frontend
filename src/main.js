@@ -21,10 +21,12 @@ import {
     FormItem,
     Col,
     Upload,
-    Dialog
+    Dialog,
+    Radio,
+    RadioGroup
 } from 'element-ui';
 
-Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination).use(Form).use(FormItem).use(Col).use(Upload).use(Dialog)
+Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination).use(Form).use(FormItem).use(Col).use(Upload).use(Dialog).use(Radio).use(RadioGroup)
 Vue.prototype.$MessageBox = MessageBox;
 Vue.prototype.$Message = Message;
 

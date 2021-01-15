@@ -27,7 +27,7 @@
             return {
                 nav: [{
                     label: "首页",
-                    path: "/Index"
+                    path: "/Home"
                 }, {
                     label: "商品管理",
                     path: "/Goods"
