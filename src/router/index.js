@@ -49,7 +49,7 @@ export default new Router({
             }, {
                 path: '/AddGoods',
                 name: 'AddGoods',
-                component: () => import('@/pages/goods/addGoods'),
+                component: () => import('@/pages/goods/goodsDetail'),
                 meta: {
                     keepAlive: false
                 }

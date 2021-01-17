@@ -2,8 +2,12 @@
     <div class="home">
         <div class="left">
             <div class="nav">
-                <div :class="['item', navActive == item.path ? 'active':'']" v-for="(item,index) in nav"
-                     @click="selectNav(item.path)">
+                <div
+                    :class="['item', navActive == item.path ? 'active' : '']"
+                    v-for="(item, index) in nav"
+                    @click="selectNav(item.path)"
+                    :key="index"
+                >
                     <div class="label" v-text="item.label"></div>
                 </div>
             </div>
@@ -19,54 +23,61 @@
 </template>
 
 <script>
-    import {clearAllCookie} from "../../utils/common";
+import { clearAllCookie } from "../../utils/common";
 
-    export default {
-        name: "home",
-        data() {
-            return {
-                nav: [{
+export default {
+    name: "home",
+    data() {
+        return {
+            nav: [
+                {
                     label: "首页",
-                    path: "/Home"
-                }, {
+                    path: "/Home",
+                },
+                {
                     label: "商品管理",
-                    path: "/Goods"
-                }, {
+                    path: "/Goods",
+                },
+                {
                     label: "订单管理",
-                    path: "/Order"
-                }],
-                navActive: "/Home",
-            }
+                    path: "/Order",
+                },
+            ],
+            navActive: "/Home",
+        };
+    },
+    created() {
+        const isLogin = document.cookie.includes("SHOPSESSIONID");
+        if (!isLogin) this.$router.push({ path: "/Login" });
+        this.navActive = this.$route.path;
+    },
+    methods: {
+        selectNav(path) {
+            this.navActive = path;
+            this.$router.push({
+                path: path,
+            });
         },
-        created() {
-            this.navActive = this.$route.path;
-        },
-        methods: {
-            selectNav(path) {
-                this.navActive = path;
-                this.$router.push({
-                    path: path
+        logout() {
+            this.$MessageBox
+                .confirm("点击确认将退出", "确认退出？", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning",
                 })
-            },
-            logout() {
-                this.$MessageBox.confirm('点击确认将退出', '确认退出？', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
+                .then(() => {
                     localStorage.clear();
                     clearAllCookie();
                     this.$router.replace({
-                        path: "/Login"
-                    })
-                }).catch(() => {
-
-                });
-            }
-        }
-    }
+                        path: "/Login",
+                    });
+                })
+                .catch(() => {});
+        },
+    },
+};
 </script>
 
 <style scoped>
-    @import "home.css";
+@import "home.css";
 </style>

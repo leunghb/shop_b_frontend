@@ -1,3 +1,7 @@
+.addGoods .form {
+    padding-bottom: 200px;
+}
+
 .addGoods .cover .item {
     position: relative;
     display: inline-block;
@@ -49,3 +53,12 @@
     display: inline-block;
 }
 
+.btn-box {
+    position: fixed;
+    bottom: -20px;
+    padding: 20px 0;
+    width: 100%;
+    height: 40px;
+    z-index: 99999;
+    background-color: #fff;
+}
