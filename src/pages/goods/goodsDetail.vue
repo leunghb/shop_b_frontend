@@ -1,12 +1,6 @@
 <template>
     <div class="addGoods">
-        <el-form
-            class="form"
-            ref="form"
-            :model="form"
-            :rules="rules"
-            label-width="auto"
-        >
+        <el-form class="form" ref="form" :model="form" :rules="rules" label-width="auto">
             <el-form-item label="商品分类" prop="goodsCategoryId">
                 <el-select
                     class="goodsCategory"
@@ -18,21 +12,14 @@
                         :key="item.value"
                         :label="item.label"
                         :value="item.value"
-                    >
-                    </el-option>
+                    ></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="商品主标题" prop="mainTitle">
-                <el-input
-                    v-model="form.mainTitle"
-                    placeholder="请输入商品主标题"
-                ></el-input>
+                <el-input v-model="form.mainTitle" placeholder="请输入商品主标题"></el-input>
             </el-form-item>
             <el-form-item label="商品副标题" prop="subTitle">
-                <el-input
-                    v-model="form.subTitle"
-                    placeholder="请输入商品副标题"
-                ></el-input>
+                <el-input v-model="form.subTitle" placeholder="请输入商品副标题"></el-input>
             </el-form-item>
             <el-form-item label="原价" prop="originalPrice">
                 <el-input
@@ -51,20 +38,12 @@
                 ></el-input>
             </el-form-item>
             <el-form-item label="商品封面" class="cover" prop="cover">
-                <div
-                    class="item"
-                    v-for="(item, index) in form.cover"
-                    :key="item"
-                >
-                    <img :src="item" alt="" />
+                <div class="item" v-for="(item, index) in form.cover" :key="item">
+                    <img :src="item" alt />
                     <div class="mask"></div>
                     <i class="el-icon-delete" @click="removeCover(index)"></i>
                 </div>
-                <div
-                    class="uploadCover item"
-                    v-if="form.cover.length != 5"
-                    @click="getCoverFile"
-                >
+                <div class="uploadCover item" v-if="form.cover.length != 5" @click="getCoverFile">
                     <i class="el-icon-plus"></i>
                 </div>
                 <input
@@ -93,9 +72,7 @@
                 <div id="wangeditor" style="height: 250px"></div>
             </el-form-item>
             <el-form-item class="btn-box">
-                <el-button type="primary" @click="onSubmit('form')"
-                    >提交</el-button
-                >
+                <el-button type="primary" @click="submit('form')">提交</el-button>
                 <el-button type="danger" @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
@@ -178,6 +155,7 @@ export default {
                 stock: null,
                 content: "",
             },
+            editor: null,
         };
     },
     created() {
@@ -208,7 +186,8 @@ export default {
                     this.$Message.error(err);
                 });
         },
-        onSubmit(formName) {
+        submit(formName) {
+            console.log(this.editor.txt.html());
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     alert("submit!");
@@ -248,8 +227,27 @@ export default {
     mounted() {
         const editor = new E("#wangeditor");
         editor.config.placeholder = "请输入商品内容";
-        editor.config.uploadImgServer = api.uploadSinglePicture;
+        editor.config.uploadImgMaxLength = 1;
+        editor.config.customUploadImg = (files, insert) => {
+            let file = files[0];
+            let params = new FormData();
+            params.append("file", file);
+            params.append("fileType", 2);
+            post(api.uploadSinglePicture, params)
+                .then((res) => {
+                    let data = res.data;
+                    if (data.code == 0) {
+                        insert(api.baseUrl + data.data);
+                        return false;
+                    }
+                    this.$Message("图片上传失败");
+                })
+                .catch((err) => {
+                    this.$Message(err);
+                });
+        };
         editor.create();
+        this.editor = editor;
     },
 };
 </script>
