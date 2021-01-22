@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getCookie} from "../utils/common"
+import { getCookie } from "../utils/common"
 
 axios.defaults.withCredentials = true; //让ajax携带cookie
 axios.defaults.timeout = 30000;
@@ -83,4 +83,19 @@ export function del(url, params) {
             reject(err);
         });
     });
+}
+
+export function uploadImg(url, files, type) {
+    return new Promise((resolve, reject) => {
+        let params = new FormData();
+        params.append("file", files);
+        params.append("fileType", type);
+        post(url, params)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                reject(err);
+            });
+    })
 }

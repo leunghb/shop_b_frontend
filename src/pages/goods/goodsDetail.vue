@@ -68,8 +68,9 @@
                     autocomplete="off"
                 ></el-input>
             </el-form-item>
+            <el-form-item label="规格"></el-form-item>
             <el-form-item label="内容">
-                <div id="wangeditor" style="height: 250px"></div>
+                <div id="wangeditor"></div>
             </el-form-item>
             <el-form-item class="btn-box">
                 <el-button type="primary" @click="submit('form')">提交</el-button>
@@ -80,7 +81,7 @@
 </template>
 
 <script>
-import { api, post } from "../../utils/httpApi";
+import { api, post, uploadImg } from "../../utils/httpApi";
 import { hexadecimalColors } from "../../utils/common";
 import E from "wangeditor";
 
@@ -204,10 +205,7 @@ export default {
         uploadCover(e) {
             let files = e.target.files[0];
             e.target.value = "";
-            let params = new FormData();
-            params.append("file", files);
-            params.append("fileType", 2);
-            post(api.uploadSinglePicture, params)
+            uploadImg(api.uploadSinglePicture, files, 2)
                 .then((res) => {
                     let data = res.data;
                     if (data.code == 0) {
@@ -230,10 +228,7 @@ export default {
         editor.config.uploadImgMaxLength = 1;
         editor.config.customUploadImg = (files, insert) => {
             let file = files[0];
-            let params = new FormData();
-            params.append("file", file);
-            params.append("fileType", 2);
-            post(api.uploadSinglePicture, params)
+            uploadImg(api.uploadSinglePicture, file, 2)
                 .then((res) => {
                     let data = res.data;
                     if (data.code == 0) {
