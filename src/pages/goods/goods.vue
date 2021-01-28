@@ -11,33 +11,18 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-            >
-            </el-option>
+            ></el-option>
         </el-select>
-        <el-select
-            class="goodsStatus"
-            v-model="soldOut"
-            placeholder="商品状态"
-            @change="filtrate"
-        >
+        <el-select class="goodsStatus" v-model="soldOut" placeholder="商品状态" @change="filtrate">
             <el-option
                 v-for="item in goodsStatus"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-            >
-            </el-option>
+            ></el-option>
         </el-select>
-        <el-input
-            class="search"
-            placeholder="请输入商品名称"
-            v-model="searchText"
-        >
-            <el-button
-                slot="append"
-                icon="el-icon-search"
-                @click="search"
-            ></el-button>
+        <el-input class="search" placeholder="请输入商品名称" v-model="searchText">
+            <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
         <el-button @click="addGoods">添加商品</el-button>
 
@@ -45,21 +30,25 @@
             <el-table-column label="上架日期" width="200">
                 <template slot-scope="scope">
                     <i class="el-icon-sell"></i>
-                    <span style="margin-left: 10px">{{
+                    <span style="margin-left: 10px">
+                        {{
                         scope.row.addedTime
-                    }}</span>
+                        }}
+                    </span>
                 </template>
             </el-table-column>
             <el-table-column label="商品名称" width="180">
                 <template slot-scope="scope">
-                    <span class="beyondOmission">{{
+                    <span class="beyondOmission">
+                        {{
                         scope.row.mainTitle
-                    }}</span>
+                        }}
+                    </span>
                 </template>
             </el-table-column>
             <el-table-column label="商品封面" width="180">
                 <template slot-scope="scope">
-                    <img width="50" height="50" :src="scope.row.cover" alt="" />
+                    <img width="50" height="50" :src="scope.row.cover" alt />
                 </template>
             </el-table-column>
             <el-table-column label="商品原价" width="180">
@@ -72,32 +61,28 @@
                     <el-tag
                         effect="plain"
                         :style="{ color: goodsTagStyle(scope.row.goodsTypeId) }"
-                        >{{ scope.row.tag }}
-                    </el-tag>
+                    >{{ scope.row.tag }}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="最近修改日期" width="200">
                 <template slot-scope="scope">
                     <i class="el-icon-edit"></i>
-                    <span style="margin-left: 10px">{{
+                    <span style="margin-left: 10px">
+                        {{
                         scope.row.modificationTime
-                    }}</span>
+                        }}
+                    </span>
                 </template>
             </el-table-column>
-            <el-table-column label="" width="auto"> </el-table-column>
+            <el-table-column label width="auto"></el-table-column>
             <el-table-column label="操作" fixed="right" width="150">
                 <template slot-scope="scope">
-                    <el-button
-                        size="mini"
-                        @click="goodsEdit(scope.$index, scope.row)"
-                        >编辑
-                    </el-button>
+                    <el-button size="mini" @click="goodsEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button
                         size="mini"
                         type="danger"
                         @click="goodsDel(scope.$index, scope.row)"
-                        >删除
-                    </el-button>
+                    >删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -109,8 +94,9 @@
             :page-size="limit"
             layout="total, prev, pager, next, jumper"
             :total="total"
-        >
-        </el-pagination>
+        ></el-pagination>
+
+        <el-button @click="addGoodsType">商品分类管理</el-button>
     </div>
 </template>
 
@@ -247,6 +233,11 @@ export default {
         addGoods() {
             this.$router.push({
                 path: "/AddGoods",
+            });
+        },
+        addGoodsType() {
+            this.$router.push({
+                path: "/GoodsTypeMgt",
             });
         },
     },

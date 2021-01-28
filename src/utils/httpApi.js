@@ -38,6 +38,7 @@ export const api = {
     //商品
     getGoodsType: url + goods + "getGoodsType",
     getGoodsList: url + goods + "getGoodsList",
+    delGoodsType: url + goods + "delGoodsType",
 
     //上传
     uploadSinglePicture: url + upload + "uploadSinglePicture",

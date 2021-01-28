@@ -23,10 +23,11 @@ import {
     Upload,
     Dialog,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Divider,
 } from 'element-ui';
 
-Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination).use(Form).use(FormItem).use(Col).use(Upload).use(Dialog).use(Radio).use(RadioGroup)
+Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination).use(Form).use(FormItem).use(Col).use(Upload).use(Dialog).use(Radio).use(RadioGroup).use(Divider)
 Vue.prototype.$MessageBox = MessageBox;
 Vue.prototype.$Message = Message;
 
@@ -42,6 +43,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
     el: '#app',
     router,
-    components: {App},
+    components: { App },
     template: '<App/>'
 })

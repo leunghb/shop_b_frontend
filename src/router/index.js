@@ -53,6 +53,13 @@ export default new Router({
                 meta: {
                     keepAlive: false
                 }
+            }, {
+                path: '/GoodsTypeMgt',
+                name: 'GoodsTypeMgt',
+                component: () => import('@/pages/goods/goodsTypeMgt'),
+                meta: {
+                    keepAlive: false
+                }
             }]
         }
     ]
