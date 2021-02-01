@@ -39,6 +39,8 @@ export const api = {
     getGoodsType: url + goods + "getGoodsType",
     getGoodsList: url + goods + "getGoodsList",
     delGoodsType: url + goods + "delGoodsType",
+    addGoodsType: url + goods + "addGoodsType",
+    putGoodsType: url + goods + "putGoodsType",
 
     //上传
     uploadSinglePicture: url + upload + "uploadSinglePicture",
