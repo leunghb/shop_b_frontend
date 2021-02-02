@@ -60,6 +60,13 @@ export default new Router({
                 meta: {
                     keepAlive: false
                 }
+            }, {
+                path: '/GoodsSpecMgt',
+                name: 'GoodsSpecMgt',
+                component: () => import('@/pages/goods/goodsSpecMgt'),
+                meta: {
+                    keepAlive: false
+                }
             }]
         }
     ]

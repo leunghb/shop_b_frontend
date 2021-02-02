@@ -97,6 +97,7 @@
         ></el-pagination>
 
         <el-button @click="addGoodsType">商品分类管理</el-button>
+        <el-button @click="addSku">商品规格管理</el-button>
     </div>
 </template>
 
@@ -238,6 +239,11 @@ export default {
         addGoodsType() {
             this.$router.push({
                 path: "/GoodsTypeMgt",
+            });
+        },
+        addSku() {
+            this.$router.push({
+                path: "/GoodsSpecMgt",
             });
         },
     },
