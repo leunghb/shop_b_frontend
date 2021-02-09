@@ -71,6 +71,12 @@
                         icon="el-icon-plus"
                     ></el-button>
                 </el-input>
+                <el-button
+                    v-if="item.values.length == 0"
+                    @click="delAttrKey(item.keyId, index)"
+                >
+                    删除当前规格组
+                </el-button>
             </el-collapse-item>
         </el-collapse>
     </div>
@@ -199,6 +205,24 @@ export default {
                         };
                         this.spec[index].values.unshift(obj);
                         this.attrValueText = "";
+                        return false;
+                    }
+                    this.$Message.error(data.message);
+                })
+                .catch((err) => {
+                    this.$Message.error(err.message);
+                });
+        },
+        delAttrKey(keyId, index) {
+            let params = this.$qs.stringify({
+                id: keyId,
+            });
+            post(api.delAttrKey, params)
+                .then((res) => {
+                    let data = res.data;
+                    if (data.code == 0) {
+                        this.$Message.success(data.message);
+                        this.spec.splice(index, 1);
                         return false;
                     }
                     this.$Message.error(data.message);

@@ -47,6 +47,7 @@ export const api = {
     addAttrKey: url + spec + "addAttrKey",
     addAttrValue: url + spec + "addAttrValue",
     delAttrValue: url + spec + "delAttrValue",
+    delAttrKey: url + spec + "delAttrKey",
 
     //上传
     uploadSinglePicture: url + upload + "uploadSinglePicture",
