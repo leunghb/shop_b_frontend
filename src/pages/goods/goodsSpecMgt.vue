@@ -137,9 +137,6 @@ export default {
                     this.$Message.error(err);
                 });
         },
-        addSpecValue(item, index) {
-            console.log(item);
-        },
         delAttrValue(_item, _index, index) {
             let params = this.$qs.stringify({
                 id: _item.id,
@@ -193,13 +190,14 @@ export default {
             post(api.addAttrValue, params)
                 .then((res) => {
                     let data = res.data;
+                    console.log(data);
                     if (data.code == 0) {
                         this.$Message.success(data.message);
                         let obj = {
-                            id: uuid(),
+                            id: data.data,
                             name: this.attrValueText,
                         };
-                        this.spec[index].values.push(obj);
+                        this.spec[index].values.unshift(obj);
                         this.attrValueText = "";
                         return false;
                     }
