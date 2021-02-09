@@ -29,7 +29,7 @@ if (ENV == "production") {
     url = process.env.PROD_API_URL;
 }
 
-let user = "/b/user/", goods = "/goods/", upload = "/upload/";
+let user = "/b/user/", goods = "/goods/", upload = "/upload/", spec = "/spec/";
 export const api = {
     baseUrl: url,
     //用户
@@ -41,6 +41,12 @@ export const api = {
     delGoodsType: url + goods + "delGoodsType",
     addGoodsType: url + goods + "addGoodsType",
     putGoodsType: url + goods + "putGoodsType",
+
+    //规格
+    getAttr: url + spec + "getAttr",
+    addAttrKey: url + spec + "addAttrKey",
+    addAttrValue: url + spec + "addAttrValue",
+    delAttrValue: url + spec + "delAttrValue",
 
     //上传
     uploadSinglePicture: url + upload + "uploadSinglePicture",

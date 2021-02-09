@@ -1,0 +1,20 @@
+.goodsSkuMgt .collapse {
+    margin-top: 15px;
+}
+
+.collapse .title {
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+.collapse .value {
+    margin-right: 10px;
+}
+
+.attrKeyInput {
+    width: 150px;
+}
+
+.attrKeyInput >>> .el-input-group__append {
+    cursor: pointer;
+}
