@@ -1,11 +1,18 @@
 <template>
     <div class="addGoods">
-        <el-form class="form" ref="form" :model="form" :rules="rules" label-width="auto">
+        <el-form
+            class="form"
+            ref="form"
+            :model="form"
+            :rules="rules"
+            label-width="auto"
+        >
             <el-form-item label="商品分类" prop="goodsCategoryId">
                 <el-select
                     class="goodsCategory"
                     v-model="form.goodsCategoryId"
                     placeholder="请选择商品分类"
+                    @change="selGoodsCategory"
                 >
                     <el-option
                         v-for="item in goodsCategoryOptions"
@@ -16,10 +23,16 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="商品主标题" prop="mainTitle">
-                <el-input v-model="form.mainTitle" placeholder="请输入商品主标题"></el-input>
+                <el-input
+                    v-model="form.mainTitle"
+                    placeholder="请输入商品主标题"
+                ></el-input>
             </el-form-item>
             <el-form-item label="商品副标题" prop="subTitle">
-                <el-input v-model="form.subTitle" placeholder="请输入商品副标题"></el-input>
+                <el-input
+                    v-model="form.subTitle"
+                    placeholder="请输入商品副标题"
+                ></el-input>
             </el-form-item>
             <el-form-item label="原价" prop="originalPrice">
                 <el-input
@@ -38,12 +51,20 @@
                 ></el-input>
             </el-form-item>
             <el-form-item label="商品封面" class="cover" prop="cover">
-                <div class="item" v-for="(item, index) in form.cover" :key="item">
+                <div
+                    class="item"
+                    v-for="(item, index) in form.cover"
+                    :key="item"
+                >
                     <img :src="item" alt />
                     <div class="mask"></div>
                     <i class="el-icon-delete" @click="removeCover(index)"></i>
                 </div>
-                <div class="uploadCover item" v-if="form.cover.length != 5" @click="getCoverFile">
+                <div
+                    class="uploadCover item"
+                    v-if="form.cover.length != 5"
+                    @click="getCoverFile"
+                >
                     <i class="el-icon-plus"></i>
                 </div>
                 <input
@@ -60,7 +81,90 @@
                     <el-radio label="1" v-model="form.soldOut">下架</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="库存" prop="stock">
+            <el-form-item label="规格">
+                <div class="attr" v-show="attrOpt.length > 0">
+                    <el-select
+                        v-model="attr[index].checked"
+                        v-for="(item, index) in attrOpt"
+                        :key="item.keyId"
+                        :placeholder="'请选择' + item.keyName"
+                    >
+                        <el-option
+                            v-for="(_item, _index) in item.values"
+                            :key="_item.id"
+                            :value="_item.id"
+                            :label="_item.name"
+                        ></el-option>
+                    </el-select>
+                    <el-button @click="addAttr">添加</el-button>
+                    <div class="attrList">
+                        <div
+                            class="item"
+                            v-for="(item, index) in attrChecked"
+                            :key="item.spec"
+                        >
+                            <div class="name" v-text="item.name"></div>
+                            <el-input
+                                v-model="item.stock"
+                                type="number"
+                                placeholder="库存"
+                                size="mini"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                            ></el-input>
+                            <el-input
+                                v-model="item.price"
+                                type="number"
+                                placeholder="价格"
+                                size="mini"
+                                onkeyup="this.value= this.value.match(/\d+(\.\d{0,2})?/) ? this.value.match(/\d+(\.\d{0,2})?/)[0] : ''"
+                            ></el-input>
+                            <i
+                                class="el-icon-delete del"
+                                @click="delAttrChecked(index)"
+                            ></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="attrImg" v-if="form.goodsCategoryId">
+                    <div>规格封面</div>
+                    <el-select
+                        v-model="attrImgOptIndex"
+                        placeholder="选择需要添加封面的规格组"
+                    >
+                        <el-option
+                            v-for="(item, index) in attrImgOpt"
+                            :key="item.keyId"
+                            :label="item.keyName"
+                            :value="index"
+                        >
+                        </el-option>
+                    </el-select>
+                    <div></div>
+                    <div
+                        class="img"
+                        v-for="(item, index) in attrImg"
+                        :key="item.id"
+                    >
+                        <div class="name" v-text="item.name"></div>
+                        <img
+                            :src="item.img"
+                            alt=""
+                            @click="getAttrImg(index)"
+                        />
+                        <div class="reset" @click="resetAttrImg(index)">
+                            重置
+                        </div>
+                    </div>
+                    <input
+                        type="file"
+                        ref="uploadAttrImg"
+                        v-show="false"
+                        @change="uploadAttrImg($event)"
+                        accept="image/*"
+                    />
+                </div> -->
+            </el-form-item>
+            <el-form-item label="总库存" prop="stock">
                 <el-input
                     type="number"
                     placeholder="请输入商品库存"
@@ -68,12 +172,13 @@
                     autocomplete="off"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="规格"></el-form-item>
             <el-form-item label="内容">
                 <div id="wangeditor"></div>
             </el-form-item>
             <el-form-item class="btn-box">
-                <el-button type="primary" @click="submit('form')">提交</el-button>
+                <el-button type="primary" @click="submit('form')"
+                    >提交</el-button
+                >
                 <el-button type="danger" @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
@@ -82,14 +187,15 @@
 
 <script>
 import { api, post, uploadImg } from "../../utils/httpApi";
-import { hexadecimalColors } from "../../utils/common";
 import E from "wangeditor";
+import { uuid } from "../../utils/common";
 
 export default {
     name: "addGoods",
     components: {},
     data() {
         return {
+            goodsId: null,
             goodsCategoryOptions: [],
             rules: {
                 goodsCategoryId: [
@@ -138,11 +244,6 @@ export default {
                         trigger: "blur",
                     },
                     { type: "number", message: "商品库存必须为数字值" },
-                    {
-                        min: 0,
-                        message: "长度在 3 到 5 个字符",
-                        trigger: "blur",
-                    },
                 ],
             },
             form: {
@@ -156,10 +257,19 @@ export default {
                 stock: null,
                 content: "",
             },
+            attr: [],
+            attrOpt: [],
+            attrImgOpt: [],
+            attrImgOptIndex: null,
+            attrImg: [],
+            attrImgActiveIndex: null,
+            interimAttrChecked: [],
+            attrChecked: [],
             editor: null,
         };
     },
     created() {
+        this.goodsId = uuid();
         this.getGoodsCategory();
     },
     methods: {
@@ -174,10 +284,6 @@ export default {
                             v.value = v.id;
                             arr.push(v);
                         });
-                        arr.unshift({
-                            label: "全部",
-                            value: -1,
-                        });
                         this.goodsCategoryOptions = arr;
                         return false;
                     }
@@ -188,12 +294,89 @@ export default {
                 });
         },
         submit(formName) {
-            console.log(this.editor.txt.html());
+            let specList = "",
+                goodsSpecs = [];
+            this.attr.forEach((v, k) => {
+                let obj = {},
+                    key = v.keyName + "," + v.keyId,
+                    value = [];
+                v.values.forEach((_v) => {
+                    value.push(_v.name + "," + _v.id);
+                    // let attrImg = this.attrImg;
+                    // let img = null;
+                    // for (let i = 0; i < attrImg.length; i++) {
+                    //     if (
+                    //         _v.attrKeyId == attrImg[i].attrKeyId &&
+                    //         _v.id == attrImg[i].id &&
+                    //         attrImg[i].img
+                    //     ) {
+                    //         img = attrImg[i].img.replace(api.baseUrl, "");
+                    //         break;
+                    //     }
+                    // }
+                    // if (img) {
+                    //     value.push(_v.name + "," + _v.id + "," + img);
+                    // } else {
+                    //     value.push(_v.name + "," + _v.id);
+                    // }
+                });
+                obj[key] = value;
+                let str = JSON.stringify(obj),
+                    reg = new RegExp(/{|}/g);
+                str = str.replace(reg, "");
+                specList += str + (k < this.attr.length - 1 ? "," : "");
+            });
+            specList = "{" + specList + "}";
+            let stock = 0;
+            this.attrChecked.forEach((v) => {
+                v.price = Number(v.price);
+                v.stock = Number(v.stock);
+                stock += v.stock ? parseInt(v.stock) : 0;
+            });
+            if (this.form.stock < stock) {
+                this.$Message.error("总库存不得小于" + stock);
+                return false;
+            }
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert("submit!");
+                    let cover = this.form.cover;
+                    let _cover = [];
+                    cover.forEach((v) => {
+                        _cover.push(v.replace(api.baseUrl, ""));
+                    });
+                    let attr = JSON.stringify(this.attrChecked),
+                        reg = new RegExp(/\[|]/g);
+                    // attr = attr.replace(reg, "");
+                    let params = this.$qs.stringify({
+                        goodsId: this.goodsId,
+                        goodsTypeId: this.form.goodsCategoryId,
+                        originalPrice: this.form.originalPrice,
+                        discountPrice: this.form.discountPrice,
+                        cover: _cover.join(","),
+                        mainTitle: this.form.mainTitle,
+                        subTitle: this.form.subTitle,
+                        soldOut: Number(this.form.soldOut),
+                        stock: Number(this.form.stock),
+                        content: this.editor.txt
+                            .html()
+                            .replace(api.baseUrl, ""),
+                        specList: specList,
+                        attr: attr,
+                    });
+                    post(api.addGoods, params)
+                        .then((res) => {
+                            let data = res.data;
+                            if (data.code == 0) {
+                                this.$Message.success("添加成功");
+                                location.reload();
+                                return false;
+                            }
+                            this.$Message.error(data.message);
+                        })
+                        .catch((err) => {
+                            this.$Message.error(err.message);
+                        });
                 } else {
-                    console.log("error submit!!");
                     return false;
                 }
             });
@@ -221,6 +404,103 @@ export default {
         removeCover(index) {
             this.form.cover.splice(index, 1);
         },
+        selGoodsCategory() {
+            this.getAttr();
+        },
+        getAttr() {
+            let params = this.$qs.stringify({
+                goodsTypeId: this.form.goodsCategoryId,
+            });
+            post(api.getAttr, params)
+                .then((res) => {
+                    let data = res.data;
+                    if (data.code == 0) {
+                        this.attr = data.data;
+                        this.attrImgOpt = data.data;
+                        // data.data.forEach((v) => {
+                        //     v.values.unshift({
+                        //         name: "无",
+                        //         id: null,
+                        //         attrKeyId: null,
+                        //     });
+                        // });
+                        this.attrOpt = data.data;
+                        return false;
+                    }
+                    this.$Message.error(data.message);
+                })
+                .catch((err) => {
+                    this.$Message.error(data.message);
+                });
+        },
+        getAttrImg(index) {
+            this.attrImgActiveIndex = index;
+            this.$refs.uploadAttrImg.click();
+        },
+        uploadAttrImg(e) {
+            let files = e.target.files[0];
+            e.target.value = "";
+            uploadImg(api.uploadSinglePicture, files, 2)
+                .then((res) => {
+                    let data = res.data;
+                    if (data.code == 0) {
+                        this.$set(
+                            this.attrImg[this.attrImgActiveIndex],
+                            "img",
+                            api.baseUrl + data.data
+                        );
+                        return false;
+                    }
+                    this.$Message("图片上传失败");
+                })
+                .catch((err) => {
+                    this.$Message(err);
+                });
+        },
+        resetAttrImg(index) {
+            this.$set(this.attrImg[index], "img", null);
+        },
+        addAttr() {
+            let arr = [];
+            let canAdd = true;
+            this.attrOpt.forEach((v) => {
+                if (v.checked == undefined) canAdd = false;
+                v.values.forEach((_v) => {
+                    if (v.checked == _v.id) {
+                        arr.push(_v);
+                    }
+                });
+            });
+            if (!canAdd) {
+                this.$Message.error("请选择规格");
+                return false;
+            }
+            let name = "",
+                spec = "";
+            arr.forEach((v) => {
+                name += v.name + ",";
+                spec += v.attrKeyId + "-" + v.id + ",";
+            });
+            name = name.substring(0, name.length - 1);
+            spec = spec.substring(0, spec.length - 1);
+            let obj = {
+                name: name,
+                id: spec,
+            };
+            for (let i = 0; i < this.attrChecked.length; i++) {
+                if (this.attrChecked[i].id == obj.id) {
+                    this.$Message.error("已存在");
+                    return false;
+                }
+            }
+            this.attrChecked.push(obj);
+            this.attrOpt.forEach((v) => {
+                v.checked = undefined;
+            });
+        },
+        delAttrChecked(index) {
+            this.attrChecked.splice(index, 1);
+        },
     },
     mounted() {
         const editor = new E("#wangeditor");
@@ -243,6 +523,14 @@ export default {
         };
         editor.create();
         this.editor = editor;
+    },
+    watch: {
+        attrImgOptIndex(index) {
+            this.attrImg.forEach((v) => {
+                this.$set(v, "img", null);
+            });
+            this.attrImg = this.attrImgOpt[index].values;
+        },
     },
 };
 </script>

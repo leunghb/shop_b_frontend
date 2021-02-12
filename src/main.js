@@ -26,10 +26,13 @@ import {
     RadioGroup,
     Divider,
     Collapse,
-    CollapseItem
+    CollapseItem,
+    Popover,
+    Checkbox,
+    CheckboxGroup
 } from 'element-ui';
 
-Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination).use(Form).use(FormItem).use(Col).use(Upload).use(Dialog).use(Radio).use(RadioGroup).use(Divider).use(Collapse).use(CollapseItem)
+Vue.use(Select).use(Option).use(Table).use(TableColumn).use(Button).use(Input).use(Tag).use(Pagination).use(Form).use(FormItem).use(Col).use(Upload).use(Dialog).use(Radio).use(RadioGroup).use(Divider).use(Collapse).use(CollapseItem).use(Popover).use(Checkbox).use(CheckboxGroup)
 Vue.prototype.$MessageBox = MessageBox;
 Vue.prototype.$Message = Message;
 

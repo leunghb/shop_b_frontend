@@ -62,3 +62,84 @@
     z-index: 99999;
     background-color: #fff;
 }
+
+#wangeditor {
+    position: relative;
+    z-index: 1;
+}
+
+
+.el-input >>> input::-webkit-outer-spin-button, 
+.el-input >>> input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.el-input >>> input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.attrImg .img {
+    float: left;
+    position: relative;
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 100px;
+    height: 140px;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.attrImg .img .name {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.attrImg .img img {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 100%;
+    height: 100px;
+}
+
+.attrImg .img .reset {
+    position: absolute;
+    bottom: 0;
+    height: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    background-color: rgba(0,0,0,.5);
+    color: #fff;
+}
+
+.attr >>> .el-select {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.attrList .item div {
+    display: inline-block;
+}
+
+.attrList .item .el-input {
+    margin-left: 10px;
+    width: 100px;
+}
+
+.attrList .item .del {
+    margin-left: 10px;
+    font-size: 16px;
+    cursor: pointer;
+} 

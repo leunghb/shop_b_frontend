@@ -54,6 +54,13 @@ export default new Router({
                     keepAlive: false
                 }
             }, {
+                path: '/putGoods',
+                name: 'putGoods',
+                component: () => import('@/pages/goods/goodsDetail'),
+                meta: {
+                    keepAlive: false
+                }
+            }, {
                 path: '/GoodsTypeMgt',
                 name: 'GoodsTypeMgt',
                 component: () => import('@/pages/goods/goodsTypeMgt'),

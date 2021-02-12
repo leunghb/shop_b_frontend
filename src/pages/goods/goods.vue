@@ -13,7 +13,12 @@
                 :value="item.value"
             ></el-option>
         </el-select>
-        <el-select class="goodsStatus" v-model="soldOut" placeholder="商品状态" @change="filtrate">
+        <el-select
+            class="goodsStatus"
+            v-model="soldOut"
+            placeholder="商品状态"
+            @change="filtrate"
+        >
             <el-option
                 v-for="item in goodsStatus"
                 :key="item.value"
@@ -21,8 +26,16 @@
                 :value="item.value"
             ></el-option>
         </el-select>
-        <el-input class="search" placeholder="请输入商品名称" v-model="searchText">
-            <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+        <el-input
+            class="search"
+            placeholder="请输入商品名称"
+            v-model="searchText"
+        >
+            <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="search"
+            ></el-button>
         </el-input>
         <el-button @click="addGoods">添加商品</el-button>
 
@@ -31,18 +44,14 @@
                 <template slot-scope="scope">
                     <i class="el-icon-sell"></i>
                     <span style="margin-left: 10px">
-                        {{
-                        scope.row.addedTime
-                        }}
+                        {{ scope.row.addedTime }}
                     </span>
                 </template>
             </el-table-column>
             <el-table-column label="商品名称" width="180">
                 <template slot-scope="scope">
                     <span class="beyondOmission">
-                        {{
-                        scope.row.mainTitle
-                        }}
+                        {{ scope.row.mainTitle }}
                     </span>
                 </template>
             </el-table-column>
@@ -61,28 +70,32 @@
                     <el-tag
                         effect="plain"
                         :style="{ color: goodsTagStyle(scope.row.goodsTypeId) }"
-                    >{{ scope.row.tag }}</el-tag>
+                        >{{ scope.row.tag }}</el-tag
+                    >
                 </template>
             </el-table-column>
             <el-table-column label="最近修改日期" width="200">
                 <template slot-scope="scope">
                     <i class="el-icon-edit"></i>
                     <span style="margin-left: 10px">
-                        {{
-                        scope.row.modificationTime
-                        }}
+                        {{ scope.row.modificationTime }}
                     </span>
                 </template>
             </el-table-column>
             <el-table-column label width="auto"></el-table-column>
             <el-table-column label="操作" fixed="right" width="150">
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="goodsEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button
+                        size="mini"
+                        @click="goodsEdit(scope.$index, scope.row)"
+                        >编辑</el-button
+                    >
                     <el-button
                         size="mini"
                         type="danger"
                         @click="goodsDel(scope.$index, scope.row)"
-                    >删除</el-button>
+                        >删除</el-button
+                    >
                 </template>
             </el-table-column>
         </el-table>
@@ -171,7 +184,12 @@ export default {
                 });
         },
         goodsEdit(index, row) {
-            console.log(index, row);
+            this.$router.push({
+                path: "/putGoods",
+                query: {
+                    goodsId: row.goodsId,
+                },
+            });
         },
         goodsDel(index, row) {
             console.log(index, row);

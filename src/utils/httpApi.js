@@ -41,6 +41,7 @@ export const api = {
     delGoodsType: url + goods + "delGoodsType",
     addGoodsType: url + goods + "addGoodsType",
     putGoodsType: url + goods + "putGoodsType",
+    addGoods: url + goods + "addGoods",
 
     //规格
     getAttr: url + spec + "getAttr",
@@ -48,6 +49,8 @@ export const api = {
     addAttrValue: url + spec + "addAttrValue",
     delAttrValue: url + spec + "delAttrValue",
     delAttrKey: url + spec + "delAttrKey",
+    getAttrKeyByGoodsType: url + spec + "getAttrKeyByGoodsType",
+    getAttrValueByKeyId: url + spec + "getAttrValueByKeyId",
 
     //上传
     uploadSinglePicture: url + upload + "uploadSinglePicture",
