@@ -43,6 +43,7 @@ export const api = {
     putGoodsType: url + goods + "putGoodsType",
     addGoods: url + goods + "addGoods",
     getGoodsDetail: url + goods + "getGoodsDetail",
+    delGoods: url + goods + "delGoods",
 
     //规格
     getAttr: url + spec + "getAttr",

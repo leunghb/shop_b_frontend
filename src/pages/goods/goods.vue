@@ -192,7 +192,22 @@ export default {
             });
         },
         goodsDel(index, row) {
-            console.log(index, row);
+            let params = this.$qs.stringify({
+                goodsId: row.goodsId,
+            });
+            post(api.delGoods, params)
+                .then((res) => {
+                    let data = res.data;
+                    if (data.code == 0) {
+                        this.$Message.success(data.message);
+                        this.goodsList.splice(index, 1);
+                        return false;
+                    }
+                    this.$Message.error(data.message);
+                })
+                .catch((err) => {
+                    this.$Message.error(err.message);
+                });
         },
         getGoodsList() {
             this.goodsList = [];
