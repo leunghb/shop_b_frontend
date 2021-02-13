@@ -90,7 +90,7 @@
                         :placeholder="'请选择' + item.keyName"
                     >
                         <el-option
-                            v-for="(_item, _index) in item.values"
+                            v-for="_item in item.values"
                             :key="_item.id"
                             :value="_item.id"
                             :label="_item.name"
@@ -125,44 +125,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="attrImg" v-if="form.goodsCategoryId">
-                    <div>规格封面</div>
-                    <el-select
-                        v-model="attrImgOptIndex"
-                        placeholder="选择需要添加封面的规格组"
-                    >
-                        <el-option
-                            v-for="(item, index) in attrImgOpt"
-                            :key="item.keyId"
-                            :label="item.keyName"
-                            :value="index"
-                        >
-                        </el-option>
-                    </el-select>
-                    <div></div>
-                    <div
-                        class="img"
-                        v-for="(item, index) in attrImg"
-                        :key="item.id"
-                    >
-                        <div class="name" v-text="item.name"></div>
-                        <img
-                            :src="item.img"
-                            alt=""
-                            @click="getAttrImg(index)"
-                        />
-                        <div class="reset" @click="resetAttrImg(index)">
-                            重置
-                        </div>
-                    </div>
-                    <input
-                        type="file"
-                        ref="uploadAttrImg"
-                        v-show="false"
-                        @change="uploadAttrImg($event)"
-                        accept="image/*"
-                    />
-                </div> -->
             </el-form-item>
             <el-form-item label="总库存" prop="stock">
                 <el-input
@@ -266,13 +228,51 @@ export default {
             interimAttrChecked: [],
             attrChecked: [],
             editor: null,
+            goodsSpecs: [],
         };
     },
     created() {
         this.goodsId = uuid();
         this.getGoodsCategory();
+        this.getGoods();
     },
     methods: {
+        getGoods() {
+            let params = this.$qs.stringify({
+                goodsId: this.$route.query.goodsId,
+            });
+            post(api.getGoodsDetail, params)
+                .then((res) => {
+                    let data = res.data;
+                    if (data.code == 0) {
+                        this.goodsSpecs = data.data.goodsSpecs;
+                        let goodsInfo = data.data.goodsInfo;
+                        this.form.goodsCategoryId = goodsInfo.goodsTypeId;
+                        this.getAttr();
+                        this.form.mainTitle = goodsInfo.mainTitle;
+                        this.form.subTitle = goodsInfo.subTitle;
+                        this.form.originalPrice = goodsInfo.originalPrice;
+                        this.form.discountPrice = goodsInfo.discountPrice;
+                        this.form.stock = goodsInfo.stock;
+                        this.editor.txt.html(
+                            goodsInfo.content.replace(
+                                "/static/",
+                                api.baseUrl + "/static/"
+                            )
+                        );
+                        let cover = goodsInfo.cover.split(",");
+                        cover.forEach((v) => {
+                            this.form.cover.push(api.baseUrl + v);
+                        });
+                        this.form.soldOut = String(goodsInfo.soldOut);
+                        return false;
+                    }
+                    this.$Message.error(data.message);
+                })
+                .catch((err) => {
+                    this.$Message.error(err.message);
+                });
+        },
         getGoodsCategory() {
             post(api.getGoodsType)
                 .then((res) => {
@@ -302,23 +302,6 @@ export default {
                     value = [];
                 v.values.forEach((_v) => {
                     value.push(_v.name + "," + _v.id);
-                    // let attrImg = this.attrImg;
-                    // let img = null;
-                    // for (let i = 0; i < attrImg.length; i++) {
-                    //     if (
-                    //         _v.attrKeyId == attrImg[i].attrKeyId &&
-                    //         _v.id == attrImg[i].id &&
-                    //         attrImg[i].img
-                    //     ) {
-                    //         img = attrImg[i].img.replace(api.baseUrl, "");
-                    //         break;
-                    //     }
-                    // }
-                    // if (img) {
-                    //     value.push(_v.name + "," + _v.id + "," + img);
-                    // } else {
-                    //     value.push(_v.name + "," + _v.id);
-                    // }
                 });
                 obj[key] = value;
                 let str = JSON.stringify(obj),
@@ -417,14 +400,51 @@ export default {
                     if (data.code == 0) {
                         this.attr = data.data;
                         this.attrImgOpt = data.data;
-                        // data.data.forEach((v) => {
-                        //     v.values.unshift({
-                        //         name: "无",
-                        //         id: null,
-                        //         attrKeyId: null,
-                        //     });
-                        // });
                         this.attrOpt = data.data;
+                        if (this.goodsSpecs.length > 0) {
+                            this.goodsSpecs.forEach((v) => {
+                                let attrIds = [];
+                                v.specs.split(",").forEach((_v) => {
+                                    attrIds.push(_v.split("-"));
+                                });
+                                let str = "";
+                                attrIds.forEach((v) => {
+                                    for (
+                                        let i = 0;
+                                        i < this.attrOpt.length;
+                                        i++
+                                    ) {
+                                        if (v[0] == this.attrOpt[i].keyId) {
+                                            for (
+                                                let j = 0;
+                                                j <
+                                                this.attrOpt[i].values.length;
+                                                j++
+                                            ) {
+                                                if (
+                                                    v[1] ==
+                                                    this.attrOpt[i].values[j].id
+                                                ) {
+                                                    str +=
+                                                        this.attrOpt[i].values[
+                                                            j
+                                                        ].name + ",";
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                });
+                                str = str.substring(0, str.length - 1);
+                                this.attrChecked.push({
+                                    name: str,
+                                    id: v.specs,
+                                    stock: v.stock,
+                                    price: v.price,
+                                });
+                            });
+                        }
                         return false;
                     }
                     this.$Message.error(data.message);
