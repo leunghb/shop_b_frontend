@@ -27,13 +27,6 @@ export default new Router({
             component: () => import('@/pages/home/home'),
             children: [{
                 path: '/',
-                name: 'Index',
-                component: () => import('@/pages/index/index'),
-                meta: {
-                    keepAlive: true
-                }
-            }, {
-                path: '/Goods',
                 name: 'Goods',
                 component: () => import('@/pages/goods/goods'),
                 meta: {

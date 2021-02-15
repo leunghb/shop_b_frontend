@@ -31,12 +31,8 @@ export default {
         return {
             nav: [
                 {
-                    label: "首页",
-                    path: "/Home",
-                },
-                {
                     label: "商品管理",
-                    path: "/Goods",
+                    path: "/Home",
                 },
                 {
                     label: "订单管理",
