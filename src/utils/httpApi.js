@@ -29,11 +29,12 @@ if (ENV == "production") {
     url = process.env.PROD_API_URL;
 }
 
-let user = "/b/user/", goods = "/goods/", upload = "/upload/", spec = "/spec/";
+let user = "/b/user/", goods = "/goods/", upload = "/upload/", spec = "/spec/", order = "/order/";
 export const api = {
     baseUrl: url,
     //用户
     login: url + user + "login",
+    getAddressById: url + user + "getAddressById",
 
     //商品
     getGoodsType: url + goods + "getGoodsType",
@@ -56,6 +57,11 @@ export const api = {
 
     //上传
     uploadSinglePicture: url + upload + "uploadSinglePicture",
+
+    //订单
+    getOrderList: url + order + "getOrderList",
+    completeRefund: url + order + "putOrderStatus/completeRefund",
+    completeReturnRefund: url + order + "putOrderStatus/completeReturnRefund",
 }
 
 export function get(url, params) {
