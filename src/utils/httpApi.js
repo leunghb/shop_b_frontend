@@ -29,9 +29,9 @@ if (ENV == "production") {
     url = process.env.PROD_API_URL;
 }
 
-let user = "/b/user/", goods = "/goods/", upload = "/upload/", spec = "/spec/", order = "/order/";
+let user = "/b/user/", goods = "/goods/", upload = "/upload/", spec = "/spec/", order = "/order/", releaseFileUploadUrl = "http://lhbpi.free.idcfengye.com/file_upload";
 export const api = {
-    baseUrl: url,
+    baseUrl: ENV == "production" ? releaseFileUploadUrl : url,
     //用户
     login: url + user + "login",
     getAddressById: url + user + "getAddressById",
