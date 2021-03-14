@@ -232,9 +232,11 @@ export default {
         };
     },
     created() {
-        this.goodsId = uuid();
+        let name = this.$route.name,
+            goodsId = this.$route.query.goodsId;
+        this.goodsId = name == "putGoods" ? goodsId : uuid();
         this.getGoodsCategory();
-        this.getGoods();
+        if (name == "putGoods") this.getGoods();
     },
     methods: {
         getGoods() {
@@ -334,7 +336,10 @@ export default {
                         goodsId: this.goodsId,
                         goodsTypeId: this.form.goodsCategoryId,
                         originalPrice: this.form.originalPrice,
-                        discountPrice: this.form.discountPrice,
+                        discountPrice:
+                            this.form.discountPrice > 0
+                                ? this.form.discountPrice
+                                : 0,
                         cover: _cover.join(","),
                         mainTitle: this.form.mainTitle,
                         subTitle: this.form.subTitle,

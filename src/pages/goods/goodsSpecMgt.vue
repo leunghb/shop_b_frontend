@@ -135,6 +135,7 @@ export default {
                     if (data.code == 0) {
                         this.getAttrKey();
                         this.$Message.success(data.message);
+                        this.attrKeyText = "";
                         return false;
                     }
                     this.$Message.error(data.message);
